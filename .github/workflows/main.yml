@@ -11,12 +11,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    # get part of the tag after the `v`
     - name: Extract tag version number
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
 
-
-    - name: Echo
+    - name: Echo tag output
       run: echo ${{ steps.get_version.outputs.VERSION }}
 
     # # Substitute the Manifest and Download URLs in the module.json
@@ -26,9 +26,9 @@ jobs:
     #   with:
     #     files: 'module.json'
     #   env:
-    #     version: ${{steps.tag.outputs.result}}
+    #     version: ${{steps.get_version.outputs.VERSION}}
     #     manifest: https://github.com/${{github.repository}}/releases/latest/download/module.json
-    #     download: https://github.com/${{github.repository}}/releases/download/${{steps.tag.outputs.result}}/module.zip
+    #     download: https://github.com/${{github.repository}}/releases/download/${{steps.get_version.outputs.VERSION}}/module.zip
 
     # # Create a zip file with all files required by the module to add to the release
     # - run: zip -r ./module.zip module.json monsterblock.js monsterblock.css actor-sheet.html lang/ input-expressions/handler.js
