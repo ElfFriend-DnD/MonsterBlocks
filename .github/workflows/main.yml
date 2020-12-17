@@ -11,16 +11,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Extract tag name
-      id: tag
-      uses: actions/github-script@0.2.0
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          return context.payload.ref.replace(/\/refs\/tags\/v/, '');
+    - name: Extract tag version number
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+
 
     - name: Echo
-      run: echo ${{ steps.tag.outputs.result }}
+      run: echo ${{ steps.get_version.outputs.VERSION }}
 
     # # Substitute the Manifest and Download URLs in the module.json
     # - name: Substitute Manifest and Download Links For Versioned Ones
