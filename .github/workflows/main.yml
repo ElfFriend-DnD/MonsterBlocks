@@ -3,7 +3,7 @@ name: Release Creation
 on: 
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   build:
@@ -14,10 +14,10 @@ jobs:
     # get part of the tag after the `v`
     - name: Extract tag version number
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v?/}
+      uses: battila7/get-version-action@v2
 
     - name: Echo tag output
-      run: echo ${{ steps.get_version.outputs.VERSION }}
+      run: echo ${{ steps.get_version.outputs.version-without-v }}
 
     # # Substitute the Manifest and Download URLs in the module.json
     # - name: Substitute Manifest and Download Links For Versioned Ones
